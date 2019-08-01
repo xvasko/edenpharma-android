@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">eden-pharma</string>
+    <string name="session_username">sk.sytam.eden_pharma.account.session_username</string>
+    <string name="session_token">sk.sytam.eden_pharma.account.session_token</string>
+</resources>
