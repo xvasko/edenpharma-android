@@ -3,6 +3,8 @@ package sk.sytam.eden_pharma;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,23 +20,30 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import sk.sytam.eden_pharma.account.LoginActivity;
+import sk.sytam.eden_pharma.adapters.ViewPagerAdapter;
 import sk.sytam.eden_pharma.models.Customer;
 import sk.sytam.eden_pharma.models.CustomerWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView textView;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setElevation(0);
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String savedUser = preferences.getString("@string/session_username", "prihláste sa");
         getSupportActionBar().setTitle("Ste prihlásený ako " + savedUser);
 
-        textView = findViewById(R.id.text_view);
+        viewPager = findViewById(R.id.view_pager);
+        setupViewPager(viewPager);
+
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:8000/api/")
@@ -45,32 +54,32 @@ public class MainActivity extends AppCompatActivity {
 
         Call<CustomerWrapper> call = edenPharmaApi.getCustomers("Token " + "dc7e3aa81fda3ae353239d156e929b6cb1e73105");
 
-        call.enqueue(new Callback<CustomerWrapper>() {
-            @Override
-            public void onResponse(Call<CustomerWrapper> call, Response<CustomerWrapper> response) {
-
-                if (!response.isSuccessful()) {
-                    textView.setText("Code: " + response.code());
-                    return;
-                }
-
-                List<Customer> customers = response.body().getCustomers();
-
-                for (Customer customer : customers) {
-                    String content = "";
-                    content += "ID: " + customer.getId() + "\n";
-                    content += "Name: " + customer.getName() + "\n";
-
-                    textView.append(content);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<CustomerWrapper> call, Throwable t) {
-                textView.setText(t.getMessage());
-            }
-        });
+//        call.enqueue(new Callback<CustomerWrapper>() {
+//            @Override
+//            public void onResponse(Call<CustomerWrapper> call, Response<CustomerWrapper> response) {
+//
+//                if (!response.isSuccessful()) {
+//                    textView.setText("Code: " + response.code());
+//                    return;
+//                }
+//
+//                List<Customer> customers = response.body().getCustomers();
+//
+//                for (Customer customer : customers) {
+//                    String content = "";
+//                    content += "ID: " + customer.getId() + "\n";
+//                    content += "Name: " + customer.getName() + "\n";
+//
+//                    textView.append(content);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CustomerWrapper> call, Throwable t) {
+//                textView.setText(t.getMessage());
+//            }
+//        });
 
     }
 
@@ -94,4 +103,12 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter.addFragment(new OrdersFragment(), "Objednávky");
+        viewPagerAdapter.addFragment(new CustomersFragment(), "Zákzníci");
+        viewPager.setAdapter(viewPagerAdapter);
+    }
+
 }
