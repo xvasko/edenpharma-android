@@ -2,6 +2,9 @@ package sk.sytam.eden_pharma.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+
 public class Customer {
 
     private int id;
@@ -35,4 +38,17 @@ public class Customer {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
+
+    public static final DiffUtil.ItemCallback<Customer> DIFF_CALLBACK = new DiffUtil.ItemCallback<Customer>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Customer oldItem, @NonNull Customer newItem) {
+            return oldItem.id == newItem.id;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Customer oldItem, @NonNull Customer newItem) {
+            return true; // TODO wtf is this
+        }
+    };
 }

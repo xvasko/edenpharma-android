@@ -3,17 +3,21 @@ package sk.sytam.eden_pharma;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,6 +27,7 @@ import sk.sytam.eden_pharma.account.LoginActivity;
 import sk.sytam.eden_pharma.adapters.ViewPagerAdapter;
 import sk.sytam.eden_pharma.models.Customer;
 import sk.sytam.eden_pharma.models.CustomerWrapper;
+import sk.sytam.eden_pharma.viewmodels.MainActivityViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         EdenPharmaApi edenPharmaApi = retrofit.create(EdenPharmaApi.class);
 
-        Call<CustomerWrapper> call = edenPharmaApi.getCustomers("Token " + "dc7e3aa81fda3ae353239d156e929b6cb1e73105");
+//        Call<CustomerWrapper> call = edenPharmaApi.getCustomers("Token " + "dc7e3aa81fda3ae353239d156e929b6cb1e73105");
 
 //        call.enqueue(new Callback<CustomerWrapper>() {
 //            @Override
