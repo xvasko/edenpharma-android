@@ -1,11 +1,9 @@
-package sk.sytam.eden_pharma;
+package sk.sytam.eden_pharma.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +14,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import sk.sytam.eden_pharma.R;
 import sk.sytam.eden_pharma.adapters.CustomerAdapter;
 import sk.sytam.eden_pharma.models.Customer;
 import sk.sytam.eden_pharma.viewmodels.MainActivityViewModel;
@@ -38,7 +37,7 @@ public class CustomersFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                getCustomers();
             }
         });
         getCustomers();
@@ -46,7 +45,7 @@ public class CustomersFragment extends Fragment {
     }
 
     private void getCustomers() {
-        mainActivityViewModel.getCustomerPagedList().observe(this, new Observer<PagedList<Customer>>() {
+        mainActivityViewModel.getCustomers().observe(this, new Observer<PagedList<Customer>>() {
             @Override
             public void onChanged(PagedList<Customer> customersFromLiveData) {
                 customers = customersFromLiveData;

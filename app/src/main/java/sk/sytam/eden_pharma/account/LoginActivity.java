@@ -17,9 +17,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import sk.sytam.eden_pharma.EdenPharmaApi;
+import sk.sytam.eden_pharma.api.Api;
+import sk.sytam.eden_pharma.api.ApiI;
 import sk.sytam.eden_pharma.MainActivity;
 import sk.sytam.eden_pharma.R;
+import sk.sytam.eden_pharma.utils.SharedPref;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,8 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-        String savedToken = preferences.getString("@string/session_token", null);
+        String savedToken = SharedPref.getInstance(LoginActivity.this).getToken();
 
         if (savedToken != null) {
             Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
@@ -66,15 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void logIn(final String username, final String password) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8000/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        EdenPharmaApi edenPharmaApi = retrofit.create(EdenPharmaApi.class);
-
-        Call<TokenWrapper> call = edenPharmaApi.logIn(username, password);
-
+        Call<TokenWrapper> call = Api.getInstance().logIn(username, password);
         call.enqueue(new Callback<TokenWrapper>() {
             @Override
             public void onResponse(Call<TokenWrapper> call, Response<TokenWrapper> response) {
@@ -107,17 +100,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setSessionParams(String username, String token) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-        SharedPreferences.Editor editor = preferences.edit();
-
         Log.d(TAG, "setSessionParams: Storing session variables: \n" +
                 "username: " + username + "\n" +
                 "token: " + token);
 
-        editor.putString("@string/session_username", username);
-        editor.apply();
-        editor.putString("@string/session_token", token);
-        editor.apply();
+        SharedPref.getInstance(LoginActivity.this).setUsername(username);
+        SharedPref.getInstance(LoginActivity.this).setToken(token);
 
     }
 

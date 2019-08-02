@@ -1,4 +1,4 @@
-package sk.sytam.eden_pharma;
+package sk.sytam.eden_pharma.fragments;
 
 import android.os.Bundle;
 
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import sk.sytam.eden_pharma.R;
 
 public class OrdersFragment extends Fragment {
 

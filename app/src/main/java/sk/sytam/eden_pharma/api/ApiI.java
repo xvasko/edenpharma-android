@@ -1,4 +1,4 @@
-package sk.sytam.eden_pharma;
+package sk.sytam.eden_pharma.api;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -10,7 +10,7 @@ import retrofit2.http.Query;
 import sk.sytam.eden_pharma.account.TokenWrapper;
 import sk.sytam.eden_pharma.models.CustomerWrapper;
 
-public interface EdenPharmaApi {
+public interface ApiI {
 
     @GET("customers")
     Call<CustomerWrapper> getCustomers(@Header("Authorization") String token, @Query("page") long page);

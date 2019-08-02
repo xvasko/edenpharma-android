@@ -1,23 +1,22 @@
 package sk.sytam.eden_pharma.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import sk.sytam.eden_pharma.R;
+import sk.sytam.eden_pharma.activities.CustomerActivity;
 import sk.sytam.eden_pharma.models.Customer;
 
 public class CustomerAdapter extends PagedListAdapter<Customer, CustomerAdapter.CustomerViewHolder> {
 
     private Context context;
-    private ArrayList<Customer> customers;
 
     public CustomerAdapter(Context context) {
         super(Customer.DIFF_CALLBACK);
@@ -43,6 +42,7 @@ public class CustomerAdapter extends PagedListAdapter<Customer, CustomerAdapter.
 
          CustomerViewHolder(@NonNull View itemView) {
              super(itemView);
+             itemView.setOnClickListener(this);
              customerNameTextView = itemView.findViewById(R.id.item_customer_name);
          }
 
@@ -52,7 +52,9 @@ public class CustomerAdapter extends PagedListAdapter<Customer, CustomerAdapter.
 
          @Override
          public void onClick(View v) {
-
+             Intent customerActivity = new Intent(context, CustomerActivity.class);
+             context.startActivity(customerActivity);
          }
+
      }
 }

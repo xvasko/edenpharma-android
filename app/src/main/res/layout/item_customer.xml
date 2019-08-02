@@ -14,6 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="sample customer"
-        android:padding="8dp"/>
+        android:textSize="16sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
 
 </LinearLayout>
