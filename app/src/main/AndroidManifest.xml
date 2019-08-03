@@ -24,8 +24,10 @@
         <activity
             android:name=".activities.CustomerActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".activities.OrderActivity"
+        <activity
+            android:name=".activities.OrderActivity"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".activities.SearchCustomerActivity"></activity>
     </application>
 
 </manifest>

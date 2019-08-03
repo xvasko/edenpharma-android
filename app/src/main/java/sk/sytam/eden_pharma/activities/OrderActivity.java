@@ -53,8 +53,6 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
         getOrderProducts(orderId);
-
-
     }
 
     private void getOrderProducts(int orderId) {

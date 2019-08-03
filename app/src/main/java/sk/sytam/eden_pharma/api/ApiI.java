@@ -18,6 +18,13 @@ public interface ApiI {
     @GET("customers")
     Call<CustomerWrapper> getCustomers(@Header("Authorization") String token, @Query("page") long page);
 
+    @GET("customers")
+    Call<CustomerWrapper> getCustomers(
+            @Header("Authorization") String token,
+            @Query("q") String query,
+            @Query("page") long page
+    );
+
     @GET("orders")
     Call<OrderWrapper> getOrders(@Header("Authorization") String token, @Query("page") long page);
 

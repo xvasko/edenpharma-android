@@ -1,5 +1,6 @@
 package sk.sytam.eden_pharma.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import sk.sytam.eden_pharma.R;
+import sk.sytam.eden_pharma.activities.OrderActivity;
+import sk.sytam.eden_pharma.activities.SearchCustomerActivity;
 import sk.sytam.eden_pharma.adapters.OrderAdapter;
 import sk.sytam.eden_pharma.models.Order;
 import sk.sytam.eden_pharma.viewmodels.MainActivityViewModel;
@@ -53,6 +56,8 @@ public class OrdersFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
+                Intent searchCustomerActivity = new Intent(getActivity(), SearchCustomerActivity.class);
+                startActivity(searchCustomerActivity);
             }
         });
 

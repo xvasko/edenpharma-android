@@ -39,9 +39,7 @@ public class CustomerAdapter extends PagedListAdapter<Customer, CustomerAdapter.
     class CustomerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Customer customer;
-
         private TextView customerNameTextView;
-
 
         CustomerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -50,8 +48,13 @@ public class CustomerAdapter extends PagedListAdapter<Customer, CustomerAdapter.
         }
 
         void bindTo(Customer customer) {
-            this.customer = customer;
-            customerNameTextView.setText(this.customer.getName());
+            if (customer != null) {
+                this.customer = customer;
+                customerNameTextView.setText(this.customer.getName());
+            } else {
+                customerNameTextView.setText("...");
+            }
+
         }
 
         @Override
