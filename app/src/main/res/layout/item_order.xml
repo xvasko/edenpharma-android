@@ -16,14 +16,14 @@
 
         <TextView
 
-            android:id="@+id/item_customer_name"
+            android:id="@+id/item_order_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
             android:paddingTop="16dp"
             android:paddingEnd="8dp"
             android:paddingBottom="16dp"
-            android:text="sample customer"
+            android:text="sample order"
             android:textSize="16sp" />
 
     </androidx.cardview.widget.CardView>

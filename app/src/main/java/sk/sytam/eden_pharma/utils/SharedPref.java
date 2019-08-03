@@ -1,8 +1,9 @@
 package sk.sytam.eden_pharma.utils;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import sk.sytam.eden_pharma.App;
 
 public class SharedPref {
 
@@ -11,19 +12,19 @@ public class SharedPref {
 
     private static volatile SharedPref instance;
 
-    public static SharedPref getInstance(Context context) {
+    public static SharedPref getInstance() {
         if (instance == null) {
             synchronized (SharedPref.class) {
                 if (instance == null) {
-                    instance = new SharedPref(context);
+                    instance = new SharedPref();
                 }
             }
         }
         return instance;
     }
 
-    private SharedPref(Context context) {
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    private SharedPref() {
+        preferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
         editor = preferences.edit();
 
     }

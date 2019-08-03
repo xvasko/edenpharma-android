@@ -13,21 +13,24 @@ import sk.sytam.eden_pharma.api.Api;
 import sk.sytam.eden_pharma.api.ApiI;
 import sk.sytam.eden_pharma.models.Customer;
 import sk.sytam.eden_pharma.models.CustomerWrapper;
+import sk.sytam.eden_pharma.utils.SharedPref;
 
 public class CustomerDataSource extends PageKeyedDataSource<Long, Customer> {
 
     private static final String TAG = "CustomerDataSource";
 
     private ApiI api;
+    private String token;
 
     CustomerDataSource() {
         this.api = Api.getInstance();
+        this.token = SharedPref.getInstance().getToken();
     }
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Long> params, @NonNull final LoadInitialCallback<Long, Customer> callback) {
         Log.d(TAG, "loadInitial: ");
-        Call<CustomerWrapper> call = api.getCustomers("Token " + "ffd5f607ad88b881cadf6ba63620140d1af44a59", 1);
+        Call<CustomerWrapper> call = api.getCustomers("Token " + token, 1);
         call.enqueue(new Callback<CustomerWrapper>() {
             @Override
             public void onResponse(Call<CustomerWrapper> call, Response<CustomerWrapper> response) {
@@ -60,7 +63,7 @@ public class CustomerDataSource extends PageKeyedDataSource<Long, Customer> {
     @Override
     public void loadAfter(@NonNull final LoadParams<Long> params, @NonNull final LoadCallback<Long, Customer> callback) {
         Log.d(TAG, "loadAfter: ");
-        Call<CustomerWrapper> call = api.getCustomers("Token " + "ffd5f607ad88b881cadf6ba63620140d1af44a59", params.key);
+        Call<CustomerWrapper> call = api.getCustomers("Token " + token, params.key);
         call.enqueue(new Callback<CustomerWrapper>() {
             @Override
             public void onResponse(Call<CustomerWrapper> call, Response<CustomerWrapper> response) {

@@ -1,5 +1,8 @@
 package sk.sytam.eden_pharma.api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -13,6 +16,7 @@ public class Api {
         if (instance == null) {
             synchronized (Api.class) {
                 if (instance == null) {
+
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(API_URL)
                             .addConverterFactory(GsonConverterFactory.create())

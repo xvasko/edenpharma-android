@@ -2,10 +2,12 @@ package sk.sytam.eden_pharma.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
-public class Customer {
+public class Customer implements Serializable {
 
     private int id;
     private String name;

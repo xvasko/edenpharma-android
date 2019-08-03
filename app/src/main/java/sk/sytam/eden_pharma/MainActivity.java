@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String savedUser = SharedPref.getInstance(this).getUsername();
+        String savedUser = SharedPref.getInstance().getUsername();
         getSupportActionBar().setTitle("Ste prihlásený ako " + savedUser);
         getSupportActionBar().setElevation(0);
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_logout:
-                SharedPref.getInstance(this).clear();
+                SharedPref.getInstance().clear();
                 Intent mainActivity = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(mainActivity);
                 Toast.makeText(this, "Odhlasujem!", Toast.LENGTH_SHORT).show();
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new OrdersFragment(), "Objednávky");
+        viewPagerAdapter.addFragment(new OrdersFragment(), "Moje Objednávky");
         viewPagerAdapter.addFragment(new CustomersFragment(), "Zákzníci");
         viewPager.setAdapter(viewPagerAdapter);
     }

@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        String savedToken = SharedPref.getInstance(LoginActivity.this).getToken();
+        String savedToken = SharedPref.getInstance().getToken();
 
         if (savedToken != null) {
             Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
@@ -104,8 +104,8 @@ public class LoginActivity extends AppCompatActivity {
                 "username: " + username + "\n" +
                 "token: " + token);
 
-        SharedPref.getInstance(LoginActivity.this).setUsername(username);
-        SharedPref.getInstance(LoginActivity.this).setToken(token);
+        SharedPref.getInstance().setUsername(username);
+        SharedPref.getInstance().setToken(token);
 
     }
 
