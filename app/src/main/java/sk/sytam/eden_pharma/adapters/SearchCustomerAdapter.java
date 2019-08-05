@@ -1,6 +1,7 @@
 package sk.sytam.eden_pharma.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import sk.sytam.eden_pharma.R;
+import sk.sytam.eden_pharma.activities.OrderActivity;
 import sk.sytam.eden_pharma.models.Customer;
+import sk.sytam.eden_pharma.models.Order;
 
 public class SearchCustomerAdapter extends RecyclerView.Adapter<SearchCustomerAdapter.SearchCustomerViewHolder> {
 
@@ -33,7 +36,7 @@ public class SearchCustomerAdapter extends RecyclerView.Adapter<SearchCustomerAd
     @Override
     public void onBindViewHolder(@NonNull SearchCustomerAdapter.SearchCustomerViewHolder holder, int position) {
         Customer customer = customers.get(position);
-        holder.customerNameTextView.setText(customer.getName());
+        holder.bindTo(customer);
     }
 
     @Override
@@ -41,13 +44,29 @@ public class SearchCustomerAdapter extends RecyclerView.Adapter<SearchCustomerAd
         return customers.size();
     }
 
-    public static class SearchCustomerViewHolder extends RecyclerView.ViewHolder {
+    public class SearchCustomerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        Customer customer;
         TextView customerNameTextView;
 
-        public SearchCustomerViewHolder(@NonNull View itemView) {
+        SearchCustomerViewHolder(@NonNull View itemView) {
             super(itemView);
             customerNameTextView = itemView.findViewById(R.id.item_customer_name);
+            itemView.setOnClickListener(this);
+        }
+
+        void bindTo(Customer customer) {
+            this.customer = customer;
+            customerNameTextView.setText(customer.getName());
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent orderActivity = new Intent(context, OrderActivity.class);
+            Order order = new Order();
+            order.setCustomerId(this.customer.getId());
+            orderActivity.putExtra("order", order);
+            context.startActivity(orderActivity);
         }
     }
 

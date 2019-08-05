@@ -10,9 +10,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import sk.sytam.eden_pharma.R;
 import sk.sytam.eden_pharma.adapters.SearchCustomerAdapter;
+import sk.sytam.eden_pharma.adapters.SearchProductAdapter;
 import sk.sytam.eden_pharma.api.Api;
 import sk.sytam.eden_pharma.models.Customer;
 import sk.sytam.eden_pharma.models.CustomerWrapper;
+import sk.sytam.eden_pharma.models.Product;
+import sk.sytam.eden_pharma.models.ProductWrapper;
 import sk.sytam.eden_pharma.utils.SharedPref;
 
 import android.os.Bundle;
@@ -26,14 +29,13 @@ import android.widget.Toast;
 
 import java.util.List;
 
-// https://www.youtube.com/watch?v=tiXP__iYtq4
-public class SearchCustomerActivity extends AppCompatActivity {
+public class SearchProductActivity extends AppCompatActivity {
 
-    private static final String TAG = "SearchCustomerActivity";
+    private static final String TAG = "SearchProductActivity";
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-    private SearchCustomerAdapter searchCustomerAdapter;
+    private SearchProductAdapter searchProductAdapter;
     private LinearLayoutManager layoutManager;
 
     private int pageNumber = 1;
@@ -41,20 +43,20 @@ public class SearchCustomerActivity extends AppCompatActivity {
     private int pastVisibleItems, visibleItemCount, totalItemCount, previousTotal = 0;
     private int viewThreshold = 10;
 
-    private Call<CustomerWrapper> call;
+    private Call<ProductWrapper> call;
     private String query = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_customer);
-        getSupportActionBar().setTitle("Zvoľte zákazníka");
+        setContentView(R.layout.activity_search_product);
+        getSupportActionBar().setTitle("Zvoľte produkt");
 
-        recyclerView = findViewById(R.id.search_customer_recycler_view);
+        recyclerView = findViewById(R.id.search_product_recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        progressBar = findViewById(R.id.search_customer_progress_bar);
+        progressBar = findViewById(R.id.search_product_progress_bar);
         progressBar.setVisibility(View.VISIBLE);
 
         callFirstPage();
@@ -89,13 +91,13 @@ public class SearchCustomerActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         if (query.equals("")) {
-            call = Api.getInstance().getCustomers("Token " + SharedPref.getInstance().getToken(), pageNumber);
+            call = Api.getInstance().getProducts("Token " + SharedPref.getInstance().getToken(), pageNumber);
         } else {
-            call = Api.getInstance().getCustomers("Token " + SharedPref.getInstance().getToken(), query, pageNumber);
+            call = Api.getInstance().getProducts("Token " + SharedPref.getInstance().getToken(), query, pageNumber);
         }
-        call.enqueue(new Callback<CustomerWrapper>() {
+        call.enqueue(new Callback<ProductWrapper>() {
             @Override
-            public void onResponse(Call<CustomerWrapper> call, Response<CustomerWrapper> response) {
+            public void onResponse(Call<ProductWrapper> call, Response<ProductWrapper> response) {
                 Log.d(TAG, "onResponse: ");
                 if (!response.isSuccessful()) {
                     Log.d(TAG, "onResponse: failed");
@@ -103,18 +105,17 @@ public class SearchCustomerActivity extends AppCompatActivity {
                     return;
                 }
 
-                CustomerWrapper customerWrapper = response.body();
+                ProductWrapper productWrapper = response.body();
 
-                if (customerWrapper != null && customerWrapper.getCustomers() != null) {
-                    List<Customer> customers = customerWrapper.getCustomers();
-                    searchCustomerAdapter.addCustomers(customers);
-                    Toast.makeText(SearchCustomerActivity.this, "Page number: " + pageNumber + " is loaded...", Toast.LENGTH_SHORT).show();
+                if (productWrapper != null && productWrapper.getProducts() != null) {
+                    List<Product> products = productWrapper.getProducts();
+                    searchProductAdapter.addProducts(products);
                 }
                 progressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onFailure(Call<CustomerWrapper> call, Throwable t) {
+            public void onFailure(Call<ProductWrapper> call, Throwable t) {
                 Log.d(TAG, "onFailure: ");
             }
         });
@@ -125,32 +126,32 @@ public class SearchCustomerActivity extends AppCompatActivity {
             call.cancel();
         }
         if (query.equals("")) {
-            call = Api.getInstance().getCustomers("Token " + SharedPref.getInstance().getToken(), pageNumber);
+            call = Api.getInstance().getProducts("Token " + SharedPref.getInstance().getToken(), pageNumber);
         } else {
-            call = Api.getInstance().getCustomers("Token " + SharedPref.getInstance().getToken(), query, pageNumber);
-            searchCustomerAdapter.clearCustomers();
+            call = Api.getInstance().getProducts("Token " + SharedPref.getInstance().getToken(), query, pageNumber);
+            searchProductAdapter.clearProducts();
         }
-        call.enqueue(new Callback<CustomerWrapper>() {
+        call.enqueue(new Callback<ProductWrapper>() {
             @Override
-            public void onResponse(Call<CustomerWrapper> call, Response<CustomerWrapper> response) {
+            public void onResponse(Call<ProductWrapper> call, Response<ProductWrapper> response) {
                 Log.d(TAG, "onResponse: ");
                 if (!response.isSuccessful()) {
                     Log.d(TAG, "onResponse: failed code: " + response.code());
                     return;
                 }
 
-                CustomerWrapper customerWrapper = response.body();
+                ProductWrapper productWrapper = response.body();
 
-                if (customerWrapper != null && customerWrapper.getCustomers() != null) {
-                    List<Customer> customers = customerWrapper.getCustomers();
-                    searchCustomerAdapter = new SearchCustomerAdapter(customers, SearchCustomerActivity.this);
-                    recyclerView.setAdapter(searchCustomerAdapter);
+                if (productWrapper != null && productWrapper.getProducts() != null) {
+                    List<Product> products = productWrapper.getProducts();
+                    searchProductAdapter = new SearchProductAdapter(products, SearchProductActivity.this);
+                    recyclerView.setAdapter(searchProductAdapter);
                     progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
-            public void onFailure(Call<CustomerWrapper> call, Throwable t) {
+            public void onFailure(Call<ProductWrapper> call, Throwable t) {
                 Log.d(TAG, "onFailure: ");
             }
         });
@@ -183,7 +184,7 @@ public class SearchCustomerActivity extends AppCompatActivity {
                 visibleItemCount = 0;
                 totalItemCount = 0;
                 previousTotal = 0;
-                searchCustomerAdapter.clearCustomers();
+                searchProductAdapter.clearProducts();
                 callFirstPage();
                 return false;
             }

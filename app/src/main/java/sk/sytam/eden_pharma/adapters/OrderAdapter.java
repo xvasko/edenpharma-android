@@ -58,8 +58,7 @@ public class OrderAdapter extends PagedListAdapter<Order, OrderAdapter.CustomerV
         @Override
         public void onClick(View v) {
             Intent orderActivity = new Intent(context, OrderActivity.class);
-            orderActivity.putExtra("order_id", this.order.getId());
-            orderActivity.putExtra("order_name", "Objednávka #" + this.order.getId() + " pre " + this.order.getCustomerName());
+            orderActivity.putExtra("order", this.order);
             context.startActivity(orderActivity);
         }
 

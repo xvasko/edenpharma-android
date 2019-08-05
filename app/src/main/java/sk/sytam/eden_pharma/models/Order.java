@@ -33,6 +33,10 @@ public class Order implements Serializable {
         return customerName;
     }
 
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
     public static final DiffUtil.ItemCallback<Order> DIFF_CALLBACK = new DiffUtil.ItemCallback<Order>() {
         @Override
         public boolean areItemsTheSame(@NonNull Order oldItem, @NonNull Order newItem) {

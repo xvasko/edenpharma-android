@@ -27,7 +27,9 @@
         <activity
             android:name=".activities.OrderActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".activities.SearchCustomerActivity"></activity>
+        <activity android:name=".activities.SearchCustomerActivity" />
+        <activity android:name=".activities.AddProductToOrderActivity" />
+        <activity android:name=".activities.SearchProductActivity"></activity>
     </application>
 
 </manifest>
